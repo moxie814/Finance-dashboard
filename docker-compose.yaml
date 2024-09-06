@@ -1,0 +1,52 @@
+# # version: '3'
+
+# services:
+#   app:
+#     build: .
+#     ports:
+#       - "8501:8501"
+#     depends_on:
+#       - postgres
+#     volumes:
+#       - ./scripts:/app/scripts
+#       - ./images:/app/images
+
+#   postgres:
+#     image: postgres
+#     environment:
+#       POSTGRES_DB: personal_finance_dashboard
+#       POSTGRES_USER: postgres
+#       POSTGRES_PASSWORD: password
+
+
+
+# version: '3'  # Commented out as it's no longer necessary
+
+services:
+  app:
+    build: .
+    command: streamlit run app.py
+    ports:
+      - "8501:8501"
+    depends_on:
+      - postgres
+    volumes:
+      - ./scripts:/app/scripts
+      - ./images:/app/images
+    environment:
+      - DATABASE_URL=postgresql://postgres:password@postgres/personal_finance_dashboard
+  
+
+
+  postgres:
+    image: postgres:latest
+    environment:
+      POSTGRES_DB: personal_finance_dashboard
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
+
